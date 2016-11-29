@@ -8,6 +8,8 @@ import './body.html';
 
 Template.body.onCreated(function bodyOnCreated() {
   this.state = new ReactiveDict();
+  Meteor.subscribe('tasks');
+
 });
 
 Template.body.helpers({
@@ -34,10 +36,8 @@ Template.body.events({
     const text = target.text.value;
 
     // Insert a task into the collection
-    Tasks.insert({
-      text,
-      createdAt: new Date(), // current time
-    });
+    Meteor.call('tasks.insert', text);
+
 
     // Clear form
     target.text.value = '';
